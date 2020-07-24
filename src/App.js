@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const [seconds, setSeconds] = useState(300);
+  const [sessionSeconds, setSessionSeconds] = useState(10);
+  const [breakSeconds, setBreakSeconds] =useState(10)
   const [isActive, setIsActive] = useState(false);
 
   function toggle() {
@@ -11,29 +12,37 @@ function App() {
 
   function reset() {
     setIsActive(false);
-    setSeconds(300);
+    setSessionSeconds(1500);
   }
 
   useEffect(() => {
     let interval = null;
-    if (isActive) {
+    if (isActive && sessionSeconds !== 0) {
       interval = setInterval(() => {
-        setSeconds(seconds => seconds - 1);
-      }, 1000);
-    } else if (!isActive && seconds !== 0) {
+        setSessionSeconds(sessionSeconds => sessionSeconds - 1);
+      }, 1000);}
+    else if (isActive && sessionSeconds === 0){
+      interval = setInterval(() => {
+        setBreakSeconds(breakSeconds => breakSeconds - 1);
+      }, 1000);}
+    
+     else if (!isActive && sessionSeconds !== 0) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isActive, seconds]);
+  }, [isActive, sessionSeconds]);
+
 
 
   return (
     <div className="App">
       <button onClick={toggle}>{isActive ? 'Pause' : 'Start'}</button>
       <button onClick={reset}>Reset</button>
-      {seconds}
+      Session : {sessionSeconds}
+      Break : {breakSeconds}
     </div>
   );
 }
+
 
 export default App;
