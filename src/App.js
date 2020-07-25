@@ -4,9 +4,9 @@ import './App.css';
 function App() {
   const [seconds, setSeconds] = useState(5);
   const [isActive, setIsActive] = useState(false);
-  const [switche, setSwitche] = useState(false);
-  var defaultS = 5;
-  var defaultB = 2;
+  const [switche, setSwitche] = useState(true);
+  const [defaultS, setDefaultS] = useState(5);
+  const [defaultB, setDefaultB] = useState(2);
 
   function toggle() {
     setIsActive(!isActive);
@@ -15,8 +15,10 @@ function App() {
   function reset() {
     setIsActive(false);
     setSeconds(5);
+    setSwitche(true);
+    setDefaultS(5);
+    setDefaultB(2);
   }
-
 
   useEffect(() => {
     if (switche){
@@ -25,7 +27,7 @@ function App() {
     else{
       setSeconds(defaultB)
     }
-  },[switche]);
+  },[switche, defaultS, defaultB]);
 
   useEffect(() => {
     let interval = null;
@@ -41,17 +43,25 @@ function App() {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isActive, seconds, isActive]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isActive, seconds]);
 
 
 
   return (
     <div className="App">
+      Session : {defaultS}
+      <button onClick={() => setDefaultS(defaultS + 1)}>+</button>
+      <button onClick={() => setDefaultS(defaultS - 1)}>-</button>
+      <br />
+      Break : {defaultB}
+      <button onClick={() => setDefaultB(defaultB + 1)}>+</button>
+      <button onClick={() => setDefaultB(defaultB - 1)}>-</button>
+      <br />
       <button onClick={toggle}>{isActive ? 'Pause' : 'Start'}</button>
       <button onClick={reset}>Reset</button>
-      Session : {seconds}
-      {//Break : {breakSeconds}
-}
+      <br />
+      {switche ? 'Session' : 'Break'} : {seconds}
     </div>
   );
 }
