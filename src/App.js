@@ -2,65 +2,56 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const [sessionSeconds, setSessionSeconds] = useState(5);
-  const [breakSeconds, setBreakSeconds] = useState(5)
-  const [isActiveS, setIsActiveS] = useState(false);
-  const [isActiveB, setIsActiveB] = useState(false);
+  const [seconds, setSeconds] = useState(5);
+  const [isActive, setIsActive] = useState(false);
+  const [switche, setSwitche] = useState(false);
+  var defaultS = 5;
+  var defaultB = 2;
 
-  function toggleS() {
-    setIsActiveS(!isActiveS);
+  function toggle() {
+    setIsActive(!isActive);
   }
-/*
-  function toggleB() {
-    setIsActiveB(!isActiveB);
-  }
-*/
+
   function reset() {
-    setIsActiveS(false);
-    setIsActiveB(false);
-    setSessionSeconds(5);
-    setBreakSeconds(5);
+    setIsActive(false);
+    setSeconds(5);
   }
+
+
+  useEffect(() => {
+    if (switche){
+      setSeconds(defaultS)
+    }
+    else{
+      setSeconds(defaultB)
+    }
+  },[switche]);
 
   useEffect(() => {
     let interval = null;
-    if (isActiveS && sessionSeconds > -1) {
+    if (isActive && seconds > -1) {
       interval = setInterval(() => {
-        setSessionSeconds(sessionSeconds => sessionSeconds - 1);
+        setSeconds(seconds => seconds - 1);
       }, 1000);
     }
-    else if (isActiveS && sessionSeconds === -1) {
-      setIsActiveS(false);
-      setSessionSeconds(5);
-      setIsActiveB(true);
+    else if (seconds === -1) {
+      setSwitche(!switche);
     }
-    else if (isActiveB && breakSeconds > -1) {
-      interval = setInterval(() => {
-        setBreakSeconds(breakSeconds => breakSeconds - 1);
-      }, 1000);
-    }
-    else if (isActiveB && breakSeconds === -1) {
-      setIsActiveB(false);
-      setBreakSeconds(5);
-      setIsActiveS(true);
-    }
-    else if (!isActiveS && sessionSeconds !== 0) {
-      clearInterval(interval);
-    }
-    else if (!isActiveB && breakSeconds !== 0) {
+    else if (!isActive && seconds !== 0) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isActiveS, sessionSeconds, isActiveB, breakSeconds]);
+  }, [isActive, seconds, isActive]);
 
 
 
   return (
     <div className="App">
-      <button onClick={toggleS}>{isActiveS ? 'Pause' : 'Start'}</button>
+      <button onClick={toggle}>{isActive ? 'Pause' : 'Start'}</button>
       <button onClick={reset}>Reset</button>
-      Session : {sessionSeconds}
-      Break : {breakSeconds}
+      Session : {seconds}
+      {//Break : {breakSeconds}
+}
     </div>
   );
 }
