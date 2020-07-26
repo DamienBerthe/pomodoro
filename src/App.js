@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const [seconds, setSeconds] = useState(5);
+  const [seconds, setSeconds] = useState(1500);
   const [isActive, setIsActive] = useState(false);
   const [switche, setSwitche] = useState(true);
-  const [defaultS, setDefaultS] = useState(5);
-  const [defaultB, setDefaultB] = useState(2);
+  const [defaultS, setDefaultS] = useState(1500);
+  const [defaultB, setDefaultB] = useState(300);
 
   function toggle() {
     setIsActive(!isActive);
@@ -14,10 +14,22 @@ function App() {
 
   function reset() {
     setIsActive(false);
-    setSeconds(5);
+    setSeconds(1500);
     setSwitche(true);
-    setDefaultS(5);
-    setDefaultB(2);
+    setDefaultS(1500);
+    setDefaultB(300);
+  }
+
+  function toMinutes(kek){
+    let minutes = Math.floor(kek/60);
+    let seconds = kek%60;
+    if(minutes<10) {
+      minutes = '0'+ minutes
+    } 
+    if(seconds<10){
+      seconds ='0' + seconds
+    }
+    return minutes + ':' +seconds
   }
 
   useEffect(() => {
@@ -50,18 +62,18 @@ function App() {
 
   return (
     <div className="App">
-      Session : {defaultS}
-      <button onClick={() => setDefaultS(defaultS + 1)}>+</button>
-      <button onClick={() => setDefaultS(defaultS - 1)}>-</button>
+      Session : {toMinutes(defaultS)}
+      <button onClick={() => {if(defaultS<=3540 && !isActive){setDefaultS(defaultS + 60)}}}>+</button>
+      <button onClick={() => {if(defaultS>=120 && ! isActive){setDefaultS(defaultS - 60)}}}>-</button>
       <br />
-      Break : {defaultB}
-      <button onClick={() => setDefaultB(defaultB + 1)}>+</button>
-      <button onClick={() => setDefaultB(defaultB - 1)}>-</button>
+      Break : {toMinutes(defaultB)}
+      <button onClick={() => {if(defaultB<=3540 && !isActive){setDefaultB(defaultB + 60)}}}>+</button>
+      <button onClick={() => {if(defaultB>=120 && ! isActive){setDefaultB(defaultB - 60)}}}>-</button>
       <br />
       <button onClick={toggle}>{isActive ? 'Pause' : 'Start'}</button>
       <button onClick={reset}>Reset</button>
       <br />
-      {switche ? 'Session' : 'Break'} : {seconds}
+      {switche ? 'Session' : 'Break'} : {toMinutes(seconds)}
     </div>
   );
 }
