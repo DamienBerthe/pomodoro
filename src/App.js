@@ -83,38 +83,36 @@ function App() {
   return (
     <div className="App">
       <audio src='/sound.mp3' id='beep'/>
-      <div id="session-label">
-        Session Length:
+
+      <div id="timer-label" class="div1">
+        {switche ? 'Session' : 'Break'}
       </div>
-      <div id="session-length">
+      <div id="time-left" class="div1">
+        {toMinutes(seconds)}
+      </div>
+      <button id="start_stop" class ="button" onClick={toggle}>{isActive ? 'Pause' : 'Start'}</button>
+      <button id="reset"class ="button"  onClick={reset}>Reset</button>
+      <div id="session-label" class="div2">
+        Session Length
+      </div>
+      <div id="session-length" class="div2">
         {Math.floor(defaultS / 60)}
       </div>
 
-      <button id="session-increment" onClick={() => { if (defaultS <= 3540 && !isActive) { setDefaultS(defaultS + 60) } }}>+</button>
-      <button id="session-decrement" onClick={() => { if (defaultS >= 120 && !isActive) { setDefaultS(defaultS - 60) } }}>-</button>
+      <button id="session-increment" class ="button2" onClick={() => { if (defaultS <= 3540 && !isActive) { setDefaultS(defaultS + 60) } }}>+</button>
+      <button id="session-decrement" class ="button2" onClick={() => { if (defaultS >= 120 && !isActive) { setDefaultS(defaultS - 60) } }}>-</button>
 
-      <br />
-      <div id="break-label">
-        Break Length:
+      <div id="break-label" class="div2">
+        Break Length
       </div>
-      <div id="break-length">
+      <div id="break-length" class="div2">
         {Math.floor(defaultB / 60)}
       </div>
 
-      <button id="break-increment" onClick={() => { if (defaultB <= 3540 && !isActive) { setDefaultB(defaultB + 60) } }}>+</button>
-      <button id="break-decrement" onClick={() => { if (defaultB >= 120 && !isActive) { setDefaultB(defaultB - 60) } }}>-</button>
+      <button id="break-increment" class ="button2" onClick={() => { if (defaultB <= 3540 && !isActive) { setDefaultB(defaultB + 60) } }}>+</button>
+      <button id="break-decrement" class ="button2" onClick={() => { if (defaultB >= 120 && !isActive) { setDefaultB(defaultB - 60) } }}>-</button>
 
-
-      <br />
-      <button id="start_stop" onClick={toggle}>{isActive ? 'Pause' : 'Start'}</button>
-      <button id="reset" onClick={reset}>Reset</button>
-      <br />
-      <div id="timer-label">
-        {switche ? 'Session' : 'Break'} :
-      </div>
-      <div id="time-left">
-        {toMinutes(seconds)}
-      </div>
+      
     </div>
   );
 }
