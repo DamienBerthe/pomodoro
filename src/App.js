@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-/*let sound = new Audio('/sound.mp3')
-sound.volume = 1
-sound.id ='beep'*/
-
-/*{<audio id="beep">
-    <source src="/sound.mp3" type="audio/mpeg" />
-</audio>}*/
-
-//var sound = document.getElementById("beep");
-
-
-
 function App() {
   const [seconds, setSeconds] = useState(1500);
   const [isActive, setIsActive] = useState(false);
@@ -31,8 +19,6 @@ function App() {
     setSwitche(true);
     setDefaultS(1500);
     setDefaultB(300);
-    //sound.pause();
-    //sound.currentTime = 0;
     document.getElementById('beep').pause()
     document.getElementById('beep').currentTime = 0;
   }
@@ -65,13 +51,9 @@ function App() {
         setSeconds(seconds => seconds - 1);
       }, 1000);
       if (seconds === 0) {
-        //sound.play()
         setSwitche(!switche);
         document.getElementById('beep').play()
       }
-    }
-    else if (seconds === -1) {
-      //setSwitche(!switche);
     }
     else if (!isActive && seconds !== 0) {
       clearInterval(interval);
